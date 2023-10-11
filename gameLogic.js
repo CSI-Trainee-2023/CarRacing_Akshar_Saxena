@@ -5,12 +5,20 @@ const ctx = canvas.getContext("2d")
 // Audios and Effects
 const sideCrash = new Audio("assets/sideCrash.wav")
 
-// Rendering Car Image
+// Rendering Images
+const obstacleImage = [
+    document.querySelector("#truck"),
+    document.querySelector("#police")
+]
 const carImage = document.querySelector('#car')
 
 
 // initial roadspeed 0 since car is in state of rest
-var roadSpeed = 0
+var roadSpeed = 2
+
+// initial position of Obstacle
+var yObstacle = -50
+var xObstacle = 160
 
 
 // position of car in X and Y direction
@@ -52,8 +60,22 @@ const roadMarks = [
     }
 ]
 
+i = Math.floor(Math.random() * 2 + 1)
 
+ctx.drawImage(obstacleImage[i-1], xObstacle, yObstacle, 45, 55)
 function gameLoop() {
+    // obstacle Obstacles
+    ctx.clearRect(xObstacle, yObstacle, 45, 55)
+    yObstacle+=0.5
+    if(yObstacle == 200){
+        yObstacle = -50
+        i = Math.floor(Math.random() * 2 + 1)
+        xObstacle = i == 1?100:160
+        
+    }
+    ctx.drawImage(obstacleImage[i-1], xObstacle, yObstacle, 45, 55)
+
+
     // rendering road
     for (let i in roadMarks) {
         ctx.clearRect(roadMarks[i].x, roadMarks[i].y, roadMarks[i].width, roadMarks[i].height)
@@ -72,6 +94,15 @@ function gameLoop() {
         ctx.clearRect(carImage, xVelocity, yVelocity, 30, 45)
         xVelocity = (xVelocity == 90) ? xVelocity + 5 : xVelocity - 5
         sideCrash.play()
+    }
+
+    // checking for collision with Obstacle
+    if(yObstacle+55>=yVelocity && yObstacle<=yVelocity+40){
+        if(xVelocity+20 > xObstacle && xVelocity < xObstacle+30){
+            alert("Game Over")
+            ctx.clearRect(xObstacle, yObstacle, 45,55)
+            yObstacle = -50
+        }
     }
 
     // updating the position of car

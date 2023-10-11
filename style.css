@@ -49,7 +49,7 @@ canvas{
     background-position: center center;
 }
 
-#car{
+#car, #truck, #police{
     image-rendering: optimizeQuality;
     display: none;
 }
