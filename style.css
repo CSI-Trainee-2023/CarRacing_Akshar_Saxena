@@ -47,8 +47,6 @@ main{
 
 canvas{
     image-rendering: optimizeQuality;
-    /* max-width: 1100px; */
-    /* min-width: 600px; */
     width: 60%;
     height: 85vh;
     background-color: #19A30E;

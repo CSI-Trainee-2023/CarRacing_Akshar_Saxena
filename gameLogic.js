@@ -18,6 +18,12 @@ const carImage = document.querySelector('#car')
 // Score Counter
 var scoreCounter = 0
 
+// Increasing Difficulty
+var scoreMultiplier = 4
+var obstacleSpeed = 1
+var levelFlag = false
+
+
 // Records for scores
 var records = []
 
@@ -80,8 +86,8 @@ ctx.drawImage(obstacleImage[i-1], xObstacle, yObstacle, 45, 55)
 function gameLoop(ctime) {
     // Creating Obstacles
     ctx.clearRect(xObstacle, yObstacle, 45, 55)
-    yObstacle+=0.5
-    if(yObstacle == 200){
+    yObstacle+=obstacleSpeed
+    if(yObstacle >= 200){
         yObstacle = -50
         i = Math.floor(Math.random() * 2 + 1)
         xObstacle = i == 1?100:160
@@ -144,9 +150,18 @@ function gameLoop(ctime) {
 
     // updating the score
     span.textContent = String(scoreCounter).padStart(3,0)
-    if(ctime%4==0){
+    if(ctime%scoreMultiplier==0){
         scoreCounter += 1
     }
+
+    // Increasing Difficulty
+    if(ctime >= 15000 && !levelFlag){
+        levelFlag = true
+        obstacleSpeed = 2
+        roadSpeed = 2
+        scoreMultiplier = 2
+    }
+
 
     // updating the position of car
     ctx.imageSmoothingEnabled = false;
@@ -155,7 +170,8 @@ function gameLoop(ctime) {
 }
 
 // Key Controls
-document.onkeydown = (e) => {
+window.addEventListener('keydown', (e) => {
+    e.preventDefault()
     if(!gameOver){
         ctx.clearRect(xVelocity, yVelocity, 37, 47)
     }
@@ -180,7 +196,7 @@ document.onkeydown = (e) => {
     else {
         null
     }
-}
+})
 
 if(!gameOver){
     // initiaing GameLoop
