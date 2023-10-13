@@ -17,6 +17,7 @@ const carImage = document.querySelector('#car')
 
 // Score Counter
 var scoreCounter = 0
+const recentScores = document.querySelector(".recentScores")
 
 // Increasing Difficulty
 var scoreMultiplier = 4
@@ -26,6 +27,29 @@ var levelFlag = false
 
 // Records for scores
 var records = []
+var previousRecords
+
+// Checking for previous records and displaying it with high score being highlighted
+try{
+    previousRecords = localStorage.getItem('records')
+    previousRecords = previousRecords.split(",")
+    var highScore = Math.max(...previousRecords)
+    previousRecords.forEach(element => {
+        recentScores.innerHTML += `<div class="recordDisplay">${element}</div>`
+        if(element == highScore){
+            document.querySelectorAll(".recordDisplay").forEach(e => {
+                if(e.textContent == highScore){
+                    e.style.order = '2'
+                    e.style.backgroundColor = "yellow"
+                }
+            });
+        }
+    });
+}
+catch(e){
+    previousRecords = []
+    console.log(e)
+}
 
 // flag for gameOver
 var gameOver = false
@@ -129,10 +153,13 @@ function gameLoop(ctime) {
             ctx.fillStyle = "green"
             ctx.fillText("Play again", 125, 95, 600)
             window.cancelAnimationFrame(gameLoop)
-            // ctx.clearRect(xObstacle, yObstacle, 45,55)
             yObstacle = -50
             records.push(scoreCounter)
-            localStorage.setItem('records', records)
+            records.forEach(element => {
+                recentScores.innerHTML += `<div class="recordDisplay">${element}</div>`
+            });
+            previousRecords.push(records)
+            localStorage.setItem('records', previousRecords)
             scoreCounter = 0
             gameOver = true
             // Checking for play again button
@@ -176,22 +203,28 @@ window.addEventListener('keydown', (e) => {
         ctx.clearRect(xVelocity, yVelocity, 37, 47)
     }
     // updating the value of xVelocity i.e position of car in X direction
+    // and value of yVelocity i.e position of car in Y direction
+
     if (e.key == "ArrowRight") {
         xVelocity += 5
     }
     else if (e.key == "ArrowLeft") {
         xVelocity -= 5
     }
-    // updating the value of roadSpeed
     else if (e.key == "ArrowUp") {
-        // roadSpeed += 1
         yVelocity -= 5
     }
     else if (e.key == "ArrowDown") {
-        // if(roadSpeed > 0){
-        //     roadSpeed -= 1
-        // }
         yVelocity += 5
+    }
+    else if(e.key == "d"){
+        localStorage.removeItem('records')
+        document.querySelectorAll('.recordDisplay').forEach(e => {
+            e.style.display = 'none'
+        })
+    }
+    else if(e.key == "r"){
+        window.location.href = "index.html"
     }
     else {
         null

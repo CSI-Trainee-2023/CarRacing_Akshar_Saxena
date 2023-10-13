@@ -42,7 +42,71 @@ main{
     height: 85vh;
     display: flex;
     flex-direction: column;
-    background-color: red;
+    justify-content: space-between;
+    outline: 3px solid black;
+}
+
+.container *{
+    font-family: 'consolas';
+}
+
+::-webkit-scrollbar{
+    display: none;
+}
+
+.recentScores{
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+}
+
+.recentScores h2{
+    order: 3;
+    margin-bottom: 10px;
+    position: static;
+    color: crimson;
+}
+
+
+.recordDisplay{
+    background-color: darksalmon;
+    outline: 3px solid black;
+    font-weight: 900;
+    font-size: 1.2rem;
+    padding: 10px 0;
+    text-align: center;
+    width: 100%;
+}
+
+
+/* 
+.recentScores, .keyControls{
+    border: 1px solid red;
+} */
+
+.keyControls{
+    padding: 20px 0;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.keyControls h2{
+    position: static;
+    color: chartreuse;
+}
+
+
+.keyControls h3{
+    color: cornflowerblue;
+}
+
+.keyControls h3 span{
+    color: coral;
 }
 
 canvas{
