@@ -7,6 +7,7 @@ const span = document.querySelector("#score")
 
 // Audios and Effects
 const sideCrash = new Audio("assets/sideCrash.wav")
+const gameSound = new Audio("assets/gameMusic.mp3")
 
 // Rendering Images
 const obstacleImage = [
@@ -114,8 +115,15 @@ ctx.font = "13px Cambria"
 ctx.fillStyle = "orange"
 ctx.fillText("Press space to play", canvas.width/2-48, canvas.height/2+5, 1000)
 
-function gameLoop(ctime) {
 
+// Playing the game background music
+gameSound.play()
+
+function gameLoop(ctime) {
+    // Repeating the game background music on loop
+    gameSound.play()
+
+    // Updating gameOn to true and game started
     gameOn = true
 
     // Creating Obstacles
@@ -153,7 +161,7 @@ function gameLoop(ctime) {
     // checking for collision with Obstacle
     if(yObstacle+55>=yVelocity && yObstacle<=yVelocity+47){
         if(xVelocity+30 > xObstacle && xVelocity < xObstacle+35){
-            // sideCrash.play()
+            sideCrash.play()
             ctx.fillStyle = "black"
             ctx.fillRect(0,0,canvas.width, canvas.height)
             ctx.font = "30px Arial"
@@ -199,7 +207,6 @@ function gameLoop(ctime) {
         roadSpeed = 2
         scoreMultiplier = 2
     }
-
 
     // updating the position of car
     ctx.imageSmoothingEnabled = false;
