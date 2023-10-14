@@ -54,6 +54,9 @@ catch(e){
 // flag for gameOver
 var gameOver = false
 
+// flag for gameOn
+var gameOn = false
+
 // initial roadspeed 0 since car is in state of rest
 var roadSpeed = 2
 
@@ -104,10 +107,17 @@ const roadMarks = [
 // Randomly generating obstacles and deciding the side of road
 i = Math.floor(Math.random() * 2 + 1)
 
-// Initialy generating the obstacle
-ctx.drawImage(obstacleImage[i-1], xObstacle, yObstacle, 45, 55)
+// Press space to play
+ctx.fillStyle = "#71727287"
+ctx.fillRect(0, 0, canvas.width, canvas.height)
+ctx.font = "13px Cambria"
+ctx.fillStyle = "orange"
+ctx.fillText("Press space to play", canvas.width/2-48, canvas.height/2+5, 1000)
 
 function gameLoop(ctime) {
+
+    gameOn = true
+
     // Creating Obstacles
     ctx.clearRect(xObstacle, yObstacle, 45, 55)
     yObstacle+=obstacleSpeed
@@ -175,9 +185,10 @@ function gameLoop(ctime) {
         }
     }
 
+
     // updating the score
     span.textContent = String(scoreCounter).padStart(3,0)
-    if(ctime%scoreMultiplier==0){
+    if(Math.round(ctime)%scoreMultiplier==0){
         scoreCounter += 1
     }
 
@@ -199,25 +210,28 @@ function gameLoop(ctime) {
 // Key Controls
 window.addEventListener('keydown', (e) => {
     e.preventDefault()
-    if(!gameOver){
+    if(!gameOver && gameOn){
         ctx.clearRect(xVelocity, yVelocity, 37, 47)
     }
+
     // updating the value of xVelocity i.e position of car in X direction
     // and value of yVelocity i.e position of car in Y direction
 
-    if (e.key == "ArrowRight") {
-        xVelocity += 5
+    if(gameOn){
+        if (e.key == "ArrowRight") {
+            xVelocity += 5
+        }
+        else if (e.key == "ArrowLeft") {
+            xVelocity -= 5
+        }
+        else if (e.key == "ArrowUp") {
+            yVelocity -= 5
+        }
+        else if (e.key == "ArrowDown") {
+            yVelocity += 5
+        }
     }
-    else if (e.key == "ArrowLeft") {
-        xVelocity -= 5
-    }
-    else if (e.key == "ArrowUp") {
-        yVelocity -= 5
-    }
-    else if (e.key == "ArrowDown") {
-        yVelocity += 5
-    }
-    else if(e.key == "d"){
+    if(e.key == "d"){
         localStorage.removeItem('records')
         document.querySelectorAll('.recordDisplay').forEach(e => {
             e.style.display = 'none'
@@ -226,12 +240,16 @@ window.addEventListener('keydown', (e) => {
     else if(e.key == "r"){
         window.location.href = "index.html"
     }
+    else if(e.key == " "){
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        if(!gameOn){
+            // initiaing GameLoop
+            window.requestAnimationFrame(gameLoop)
+        }
+    }
     else {
         null
     }
 })
 
-if(!gameOver){
-    // initiaing GameLoop
-    window.requestAnimationFrame(gameLoop)
-}
+
