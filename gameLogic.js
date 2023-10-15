@@ -248,8 +248,8 @@ window.addEventListener('keydown', (e) => {
         window.location.href = "index.html"
     }
     else if(e.key == " "){
-        ctx.clearRect(0, 0, canvas.width, canvas.height)
         if(!gameOn){
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
             // initiaing GameLoop
             window.requestAnimationFrame(gameLoop)
         }
