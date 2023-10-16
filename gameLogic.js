@@ -226,16 +226,16 @@ window.addEventListener('keydown', (e) => {
 
     if(gameOn){
         if (e.key == "ArrowRight") {
-            xVelocity += 5
+            xVelocity += 4
         }
         else if (e.key == "ArrowLeft") {
-            xVelocity -= 5
+            xVelocity -= 4
         }
         else if (e.key == "ArrowUp") {
-            yVelocity -= 5
+            yVelocity -= 2
         }
         else if (e.key == "ArrowDown") {
-            yVelocity += 5
+            yVelocity += 2
         }
     }
     if(e.key == "d"){
