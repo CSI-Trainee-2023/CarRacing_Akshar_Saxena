@@ -131,9 +131,11 @@ function gameLoop(ctime) {
     yObstacle+=obstacleSpeed
     if(yObstacle >= 200){
         yObstacle = -50
+        // Random value for deciding the side of road
         i = Math.floor(Math.random() * 2 + 1)
-        xObstacle = i == 1?100:160
-        
+        xObstacle = i == 1?100:160        
+        // Random value for creating the obstacle
+        i = Math.floor(Math.random() * 2 + 1)
     }
     ctx.drawImage(obstacleImage[i-1], xObstacle, yObstacle, 45, 55)
 
@@ -204,7 +206,7 @@ function gameLoop(ctime) {
     if(ctime >= 15000 && !levelFlag){
         levelFlag = true
         obstacleSpeed = 2
-        roadSpeed = 2
+        roadSpeed = 4
         scoreMultiplier = 2
     }
 
