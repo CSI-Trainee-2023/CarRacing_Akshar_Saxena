@@ -154,15 +154,14 @@ function gameLoop(ctime) {
     }
 
     // checking for side crash
-    if (xVelocity == 90 || xVelocity == 185) {
-        ctx.clearRect(carImage, xVelocity, yVelocity, 37, 47)
-        xVelocity = (xVelocity == 90) ? xVelocity + 5 : xVelocity - 5
-        sideCrash.play()
-    }
+    // if (xVelocity == 90 || xVelocity == 185) {
+    //     ctx.clearRect(carImage, xVelocity, yVelocity, 37, 47)
+    //     xVelocity = (xVelocity == 90) ? xVelocity + 5 : xVelocity - 5
+    //     sideCrash.play()
+    // }
 
     // checking for collision with Obstacle
-    if(yObstacle+55>=yVelocity && yObstacle<=yVelocity+47){
-        if(xVelocity+30 > xObstacle && xVelocity < xObstacle+35){
+    if ((yObstacle + 55 >= yVelocity && yObstacle <= yVelocity + 47 && xVelocity + 30 > xObstacle && xVelocity < xObstacle + 35) || (xVelocity <= 90 || xVelocity >= 180 || yVelocity <= 0 || yVelocity + 47 >= canvas.height)) {
             sideCrash.play()
             ctx.fillStyle = "black"
             ctx.fillRect(0,0,canvas.width, canvas.height)
@@ -193,7 +192,7 @@ function gameLoop(ctime) {
             })
             return null
         }
-    }
+    
 
 
     // updating the score
